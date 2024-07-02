@@ -75,3 +75,4 @@ Nest is [MIT licensed](LICENSE).
 ## 트러블슈팅
 
 유효성검증은 DTO? Entity?
+https://softwareengineering.stackexchange.com/questions/387763/should-i-validate-dtos-or-entities
