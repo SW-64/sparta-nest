@@ -1,6 +1,6 @@
 import { PickType } from '@nestjs/mapped-types';
 import { IsString, IsEmail, Length, IsEnum } from 'class-validator';
-import { User } from '../user.entity';
+import { User } from '../entity/user.entity';
 import { userType } from '../userType.enum';
 export class CreateUserDto extends PickType(User, [
   'email',

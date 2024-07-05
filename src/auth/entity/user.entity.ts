@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsInt, IsString, Length } from 'class-validator';
-import { userType } from './userType.enum';
+import { userType } from '../userType.enum';
 import {
   Column,
   CreateDateColumn,
@@ -8,13 +8,14 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { Performance } from 'src/performance/entities/performance.entity';
+import { Reservation } from 'src/reservation/entity/reservation.entity';
 @Entity({
   name: 'users',
 })
 export class User {
-  //증분 되겠지?
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -51,5 +52,8 @@ export class User {
   deletedAt?: Date;
 
   @OneToMany(() => Performance, (performance) => performance.user)
-  performances: Performance[];
+  ownedPerformances: Performance[];
+
+  @OneToOne(() => Reservation, (reservation) => reservation.user)
+  reservation: Reservation;
 }

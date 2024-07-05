@@ -7,6 +7,7 @@ import {
   Delete,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { PerformanceService } from './performance.service';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
@@ -21,8 +22,8 @@ export class PerformanceController {
 
   @UserTypes(userType.OWNER)
   @Post()
-  create(@Body() createPerformanceDto: CreatePerformanceDto) {
-    return this.performanceService.create(createPerformanceDto);
+  create(@Body() createPerformanceDto: CreatePerformanceDto, @Req() req: any) {
+    return this.performanceService.create(createPerformanceDto, req);
   }
   @Get()
   findAll() {

@@ -1,4 +1,4 @@
-import _, { toInteger } from 'lodash';
+import _ from 'lodash';
 import { Repository } from 'typeorm';
 
 import {
@@ -12,7 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { User } from './user.entity';
+import { User } from './entity/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email, deletedAt: null },
-      select: ['id', 'password'],
+      select: ['id', 'password', 'email', 'nickname', 'userType', 'points'],
     });
 
     if (_.isNil(user)) {
@@ -41,7 +41,14 @@ export class AuthService {
     }
 
     // 추가된 코드 - JWT 토큰 생성
-    const payload = { id: user.id };
+    const payload = {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+      userType: user.userType,
+      points: user.points,
+    };
+
     const accessToken = await this.jwtService.signAsync(payload);
     const userInfo = await this.userRepository.find({
       where: { id: payload.id },
@@ -73,10 +80,10 @@ export class AuthService {
     };
   }
 
-  checkUser(userPayload: any) {
-    const info = `유저 정보: ${JSON.stringify(userPayload)}}`;
-    return { info };
-  }
+  // checkUser(req: any) {
+
+  //   return userInfo
+  // }
 
   private async findOne(email: string) {
     return await this.userRepository.findOne({

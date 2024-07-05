@@ -6,9 +6,15 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToOne,
+  JoinColumn,
+  OneToOne,
+  OneToMany,
 } from 'typeorm';
-import { IsString, IsInt, IsBoolean, IsArray } from 'class-validator';
-import { User } from 'src/auth/user.entity';
+import { IsString, IsInt, IsArray } from 'class-validator';
+import { User } from 'src/auth/entity/user.entity';
+import { Reservation } from 'src/reservation/entity/reservation.entity';
+import { PerformanceTime } from './performanceTime.entity';
+import { Seat } from 'src/seat/entities/seat.entity';
 @Entity({
   name: 'performances',
 })
@@ -36,7 +42,7 @@ export class Performance {
   place: string;
 
   @IsInt()
-  @Column('varchar', { nullable: false })
+  @Column('int', { nullable: false })
   price: number;
 
   @IsString()
@@ -46,10 +52,6 @@ export class Performance {
   @IsInt()
   @Column('int', { nullable: false })
   seatCount: number;
-
-  @IsBoolean()
-  @Column('bool', { default: true })
-  isPossibleReservation: boolean;
 
   @IsArray()
   @Column('simple-array', { nullable: false })
@@ -64,6 +66,19 @@ export class Performance {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.performances)
+  @ManyToOne(() => User, (user) => user.ownedPerformances)
+  @JoinColumn({ name: 'ownerId' })
   user: User;
+
+  @OneToOne(() => Reservation, (reservation) => reservation.performance)
+  reservation: Reservation;
+
+  @OneToMany(
+    () => PerformanceTime,
+    (performanceTime) => performanceTime.performance,
+  )
+  performanceTime: PerformanceTime;
+
+  @OneToMany(() => Seat, (seat) => seat.performance)
+  seat: Seat;
 }

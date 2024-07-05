@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -18,10 +18,10 @@ export class AuthController {
     return await this.authService.create(createUserDTO);
   }
 
+  /*
   @Get('/check')
   checkUser(@Req() req: any) {
-    const userPayload = req.user;
-    console.log(req.user);
-    return this.authService.checkUser(userPayload);
+    return this.authService.checkUser();
   }
+  */
 }

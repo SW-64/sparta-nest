@@ -13,11 +13,15 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthMiddleware } from './auth/auth.middleware';
-import { User } from './auth/user.entity';
+import { User } from './auth/entity/user.entity';
 import { Performance } from './performance/entities/performance.entity';
 import { AuthModule } from './auth/auth.module';
 import { PerformanceModule } from './performance/performance.module';
 import { PerformanceTime } from './performance/entities/performanceTime.entity';
+import { ReservationModule } from './reservation/reservation.module';
+import { SeatModule } from './seat/seat.module';
+import { Seat } from './seat/entities/seat.entity';
+import { Reservation } from './reservation/entity/reservation.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -29,7 +33,7 @@ const typeOrmModuleOptions = {
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
-    entities: [User, Performance, PerformanceTime],
+    entities: [User, Performance, PerformanceTime, Seat, Reservation],
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
@@ -61,6 +65,8 @@ const typeOrmModuleOptions = {
 
     AuthModule,
     PerformanceModule,
+    ReservationModule,
+    SeatModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthMiddleware],
