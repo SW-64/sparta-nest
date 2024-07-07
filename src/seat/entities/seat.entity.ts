@@ -42,7 +42,9 @@ export class Seat {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => Performance, (performance) => performance.seat)
+  @ManyToOne(() => Performance, (performance) => performance.seat, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'ownerId' })
   performance: Performance;
 }

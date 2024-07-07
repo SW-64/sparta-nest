@@ -20,27 +20,33 @@ import { userType } from 'src/user/userType.enum';
 export class PerformanceController {
   constructor(private readonly performanceService: PerformanceService) {}
 
+  // 공연 생성
   @UserTypes(userType.OWNER) // OWNER만 가능 => 인가
   @Post()
   create(@Body() createPerformanceDto: CreatePerformanceDto, @Req() req: any) {
     console.log(req.user);
     return this.performanceService.create(createPerformanceDto, req);
   }
+
+  // 공연 전체 조회
   @Get()
   findAll() {
     return this.performanceService.findAll();
   }
 
-  //search와 :id의 순서도 중요한건가?
+  // 공연 검색
   @Get('search')
   search(@Query('performanceName') performanceName: string) {
     return this.performanceService.search(performanceName);
   }
+
+  // 공연 상세 조회
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.performanceService.findOne(id);
   }
 
+  // 공연 삭제
   @UserTypes(userType.OWNER) //OWNER만 가능 => 인가
   @Delete(':id')
   @UseGuards(UserTypeGuard)
@@ -48,6 +54,7 @@ export class PerformanceController {
     return this.performanceService.remove(id);
   }
 
+  // 해당 공연 시간 조회
   @Get('/:performanceId/performanceTimes')
   findTimeAll(@Param('performanceId') performanceId: string) {
     return this.performanceService.findTimeAll(performanceId);

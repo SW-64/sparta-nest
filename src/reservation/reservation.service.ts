@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reservation } from './entity/reservation.entity';
 import { Repository } from 'typeorm';
@@ -7,7 +12,7 @@ import { PerformanceTime } from 'src/performance/entities/performanceTime.entity
 import { Seat } from 'src/seat/entities/seat.entity';
 import { User } from 'src/user/entities/user.entity';
 import { DataSource } from 'typeorm';
-
+import { paymentStatus } from './paymentStatus.enum';
 @Injectable()
 export class ReservationService {
   constructor(
@@ -48,7 +53,7 @@ export class ReservationService {
         },
       });
       if (seat.length === 0) {
-        throw new Error('Not Found Seat');
+        throw new NotFoundException('공연 좌석을 찾지 못했습니다.');
       }
 
       // 2. 공연의 좌석이 예약좌석 수보다 적을시 False
@@ -66,9 +71,11 @@ export class ReservationService {
         })
       ).map((p) => p.isPossibleReservationCount)[0];
 
-      // 예약 가능한 좌석수가 '예약하려는 좌석 수'보다 적을 시 False
+      // 예약 가능한 좌석수가 '예매하려는 좌석 수'보다 적을 시 False
       if (seatCount - quantity < 0) {
-        throw new Error('Not Seat Found');
+        throw new ConflictException(
+          '공연 좌석이 예매하려는 좌석보다 적습니다.',
+        );
       }
 
       // 3. 유저 돈이 없을때
@@ -84,7 +91,7 @@ export class ReservationService {
       ).map((p) => p.price)[0];
       // 만약 유저의 포인트가 공연 가격 X 개수 보다 적을시 False
       if (userPoint - performancePrice * quantity < 0)
-        throw new Error('No Money');
+        throw new BadRequestException('유저의 포인트가 부족합니다.');
 
       // 예외성 처리 끝.
       // ( 예매정보, 포인트, 좌석 개수 )트랜잭션으로 묶기
@@ -172,6 +179,19 @@ export class ReservationService {
         },
         performanceTimeUpdateData,
       );
+      // 5. 예매 상태 변경
+      const reservationStatus = {
+        paymentStatus: paymentStatus.PAYMENT_COMPLETED,
+      };
+      await manager.update(
+        Reservation,
+        {
+          performanceId,
+          performanceTimesId,
+          userId,
+        },
+        reservationStatus,
+      );
       return {
         messages: '예약이 성공적으로 완료되었습니다.',
       };
@@ -190,7 +210,10 @@ export class ReservationService {
     return await this.dataSource.transaction(async (manager) => {
       // 예외성 처리
       // 1. 예매 개수와 예매 번호의 개수가 같지않을때
-      if (quantity != seatNumber.length) throw new Error('not same');
+      if (quantity != seatNumber.length)
+        throw new BadRequestException(
+          '예매 하려는 좌석의 수와 예매 번호의 수가 일치하지 않습니다.',
+        );
 
       // 2. 공연, 공연시간 좌석id로 좌석을 조회했는데 나오지 않을시 False
       for (let i = 0; i < seatNumber.length; i++) {
@@ -202,7 +225,8 @@ export class ReservationService {
             isPossible: true,
           },
         });
-        if (seat.length == 0) throw new Error('no seatt');
+        if (seat.length == 0)
+          throw new NotFoundException('해당 좌석이 없습니다.');
       }
 
       // 3.  공연의 좌석이 예약좌석 수보다 적을시 False
@@ -222,7 +246,7 @@ export class ReservationService {
 
       // 예약 가능한 좌석수가 '예약하려는 좌석 수'보다 적을 시 False
       if (seatCount - quantity < 0) {
-        throw new Error('Not Seat Found');
+        throw new NotFoundException('해당 좌석이 없습니다.');
       }
       // 4. 유저 돈이 없을때
       const userPoint = req.user.points;
@@ -237,12 +261,12 @@ export class ReservationService {
       ).map((p) => p.price)[0];
       // 만약 유저의 포인트가 공연 가격 X 개수 보다 적을시 False
       if (userPoint - performancePrice * quantity < 0)
-        throw new Error('No Money');
+        throw new BadRequestException('유저의 포인트가 부족합니다.');
 
       // 예외성 처리 끝.
       // ( 예매정보, 포인트, 좌석 개수 )트랜잭션으로 묶기
       // 1. 예매정보 생성
-      const newCreate = await manager.create(Reservation, {
+      await manager.create(Reservation, {
         userId: req.user.id,
         performanceId,
         performanceTimesId,
@@ -250,8 +274,6 @@ export class ReservationService {
         quantity,
         totalPrice: performancePrice * quantity,
       });
-      console.log('zzzzzzzzzzzz');
-      console.log(newCreate);
 
       // 2. 포인트 차감
       // userId = 조건
@@ -310,12 +332,24 @@ export class ReservationService {
         },
         performanceTimeUpdateData,
       );
-
+      // 5. 예매 상태 변경
+      const reservationStatus = {
+        paymentStatus: paymentStatus.PAYMENT_COMPLETED,
+      };
+      await manager.update(
+        Reservation,
+        {
+          performanceId,
+          performanceTimesId,
+          userId,
+        },
+        reservationStatus,
+      );
       return {
         messages: '예약이 성공적으로 완료되었습니다.',
       };
     });
   }
-
+  // 예매 목록 확인
   async reservationGetAll() {}
 }

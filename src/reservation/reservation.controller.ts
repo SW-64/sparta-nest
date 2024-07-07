@@ -9,7 +9,7 @@ import { UserTypeGuard } from 'src/level/level.guard';
 @Controller('reservation')
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
-
+  // 좌석 지정하지 않고 예매
   @Post('/:performanceId/:performanceTimesId')
   reservation(
     @Req() req: any,
@@ -24,7 +24,7 @@ export class ReservationController {
       performanceTimesId,
     );
   }
-
+  // 좌석 지정하는 예매
   @Post('/online/:performanceId/:performanceTimesId')
   reservationOnline(
     @Req() req: any,
@@ -39,6 +39,7 @@ export class ReservationController {
       performanceTimesId,
     );
   }
+  // 예매 목록 확인
   @Get()
   reservationGetAll() {
     return this.reservationService.reservationGetAll();

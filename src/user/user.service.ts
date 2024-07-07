@@ -10,7 +10,7 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-
+  // 내 정보 조회
   async getMyInfo(req) {
     console.log(req.user);
     const userInfo = await this.userRepository.findOne({});
