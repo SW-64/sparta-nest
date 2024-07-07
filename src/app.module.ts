@@ -13,7 +13,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthMiddleware } from './auth/auth.middleware';
-import { User } from './auth/entity/user.entity';
+import { User } from './user/entities/user.entity';
 import { Performance } from './performance/entities/performance.entity';
 import { AuthModule } from './auth/auth.module';
 import { PerformanceModule } from './performance/performance.module';
@@ -22,6 +22,7 @@ import { ReservationModule } from './reservation/reservation.module';
 import { SeatModule } from './seat/seat.module';
 import { Seat } from './seat/entities/seat.entity';
 import { Reservation } from './reservation/entity/reservation.entity';
+import { UserModule } from './user/user.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -67,6 +68,7 @@ const typeOrmModuleOptions = {
     PerformanceModule,
     ReservationModule,
     SeatModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthMiddleware],
@@ -75,6 +77,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware) // 미들웨어 적용!
-      .forRoutes({ path: 'auth/check', method: RequestMethod.GET }); // user/check 엔드포인트에만 적용
+      .forRoutes({ path: 'performances', method: RequestMethod.POST }); // user/check 엔드포인트에만 적용
   }
 }

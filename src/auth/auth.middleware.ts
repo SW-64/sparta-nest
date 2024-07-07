@@ -13,6 +13,7 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: any, res: any, next: Function) {
     const authHeader = req.headers.authorization;
     console.log(authHeader);
+    console.log('helo');
     if (!authHeader) {
       throw new UnauthorizedException('JWT 토큰을 찾을 수 없습니다!');
     }
@@ -21,6 +22,7 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       token = authHeader.split(' ')[1];
       const payload = await this.jwtService.verify(token);
+      console.log(payload);
       req.user = payload;
       next();
     } catch (err) {

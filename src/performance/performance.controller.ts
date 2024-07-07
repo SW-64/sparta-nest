@@ -12,17 +12,18 @@ import {
 import { PerformanceService } from './performance.service';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UserTypeGuard } from 'src/level/level.guard';
-import { UserTypes } from 'src/auth/user.decorator';
-import { userType } from 'src/auth/userType.enum';
+import { UserTypes } from 'src/user/decoraters/user.decorator';
+import { userType } from 'src/user/userType.enum';
 
-@UseGuards(UserTypeGuard)
+@UseGuards(UserTypeGuard) // 인증
 @Controller('performances')
 export class PerformanceController {
   constructor(private readonly performanceService: PerformanceService) {}
 
-  @UserTypes(userType.OWNER)
+  @UserTypes(userType.OWNER) // OWNER만 가능 => 인가
   @Post()
   create(@Body() createPerformanceDto: CreatePerformanceDto, @Req() req: any) {
+    console.log(req.user);
     return this.performanceService.create(createPerformanceDto, req);
   }
   @Get()
@@ -40,7 +41,7 @@ export class PerformanceController {
     return this.performanceService.findOne(id);
   }
 
-  @UserTypes(userType.OWNER)
+  @UserTypes(userType.OWNER) //OWNER만 가능 => 인가
   @Delete(':id')
   @UseGuards(UserTypeGuard)
   remove(@Param('id') id: string) {

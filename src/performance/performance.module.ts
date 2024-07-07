@@ -10,10 +10,10 @@ import { PerformanceTime } from './entities/performanceTime.entity';
 import { Seat } from 'src/seat/entities/seat.entity';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Performance, PerformanceTime, Seat]), // 이건 TypeORM 강의 시간에 배웠죠?
+    TypeOrmModule.forFeature([Performance, PerformanceTime, Seat]),
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
-        // .env 파일에 JWT_SECRET_KEY라는 키로 비밀키를 저장해두고 사용합니다.
+        // .env 파일에 JWT_SECRET_KEY라는 키로 비밀키를 저장해두고 사용
         secret: config.get<string>('JWT_SECRET_KEY'),
       }),
       inject: [ConfigService],

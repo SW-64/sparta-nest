@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { paymentStatus } from '../paymentStatus.enum';
 import { IsEnum, IsInt } from 'class-validator';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Performance } from 'src/performance/entities/performance.entity';
 import { PerformanceTime } from 'src/performance/entities/performanceTime.entity';
 @Entity({

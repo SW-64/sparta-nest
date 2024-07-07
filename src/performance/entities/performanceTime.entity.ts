@@ -32,7 +32,7 @@ export class PerformanceTime {
 
   @IsInt()
   @Column('int', { nullable: false })
-  isPossibleReservationCount: number; // default값으로 다른 엔티티의 값을 불러올수있나
+  isPossibleReservationCount: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -43,7 +43,9 @@ export class PerformanceTime {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => Performance, (performance) => performance.performanceTime)
+  @ManyToOne(() => Performance, (performance) => performance.performanceTime, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'performanceId' })
   performance: Performance;
 

@@ -25,11 +25,20 @@ export class ReservationController {
     );
   }
 
-  @Post()
-  reservationOnline(@Body() reservationOnlineDto: ReservationOnlineDTO) {
-    return this.reservationService.reservationOnline(reservationOnlineDto);
+  @Post('/online/:performanceId/:performanceTimesId')
+  reservationOnline(
+    @Req() req: any,
+    @Body() reservationOnlineDto: ReservationOnlineDTO,
+    @Param('performanceId') performanceId: number,
+    @Param('performanceTimesId') performanceTimesId: number,
+  ) {
+    return this.reservationService.reservationOnline(
+      req,
+      reservationOnlineDto,
+      performanceId,
+      performanceTimesId,
+    );
   }
-
   @Get()
   reservationGetAll() {
     return this.reservationService.reservationGetAll();

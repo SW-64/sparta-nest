@@ -11,7 +11,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { IsString, IsInt, IsArray } from 'class-validator';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Reservation } from 'src/reservation/entity/reservation.entity';
 import { PerformanceTime } from './performanceTime.entity';
 import { Seat } from 'src/seat/entities/seat.entity';
@@ -77,7 +77,7 @@ export class Performance {
     () => PerformanceTime,
     (performanceTime) => performanceTime.performance,
   )
-  performanceTime: PerformanceTime;
+  performanceTime: PerformanceTime[];
 
   @OneToMany(() => Seat, (seat) => seat.performance)
   seat: Seat;

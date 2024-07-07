@@ -1,4 +1,4 @@
-import { userType } from './userType.enum';
+import { userType } from '../userType.enum';
 import { SetMetadata } from '@nestjs/common';
 
 export const UserTypes = (...userTypes: userType[]) =>

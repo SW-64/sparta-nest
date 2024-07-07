@@ -1,6 +1,6 @@
 import { PickType } from '@nestjs/mapped-types';
 import { IsString, IsEmail, Length, IsEnum } from 'class-validator';
-import { User } from '../entity/user.entity';
+import { User } from '../entities/user.entity';
 import { userType } from '../userType.enum';
 export class CreateUserDto extends PickType(User, [
   'email',
@@ -17,7 +17,7 @@ export class CreateUserDto extends PickType(User, [
   @IsString()
   @Length(2, 8)
   readonly nickname: string;
-  @IsString() // enum으로 바꿔야함
+  @IsString()
   @IsEnum(userType)
   readonly userType: userType;
 }

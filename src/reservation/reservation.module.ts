@@ -8,7 +8,7 @@ import { Seat } from 'src/seat/entities/seat.entity';
 import { ReservationController } from './reservation.controller';
 import { ReservationService } from './reservation.service';
 import { Reservation } from './entity/reservation.entity';
-import { User } from 'src/auth/entity/user.entity';
+import { User } from 'src/user/entities/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -17,10 +17,10 @@ import { User } from 'src/auth/entity/user.entity';
       PerformanceTime,
       Seat,
       User,
-    ]), // 이건 TypeORM 강의 시간에 배웠죠?
+    ]),
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
-        // .env 파일에 JWT_SECRET_KEY라는 키로 비밀키를 저장해두고 사용합니다.
+        // .env 파일에 JWT_SECRET_KEY라는 키로 비밀키를 저장해두고 사용
         secret: config.get<string>('JWT_SECRET_KEY'),
       }),
       inject: [ConfigService],

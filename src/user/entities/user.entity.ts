@@ -25,16 +25,16 @@ export class User {
   email: string;
 
   @IsString()
-  @Length(5, 10)
+  @Length(5, 10) // 5~10 길이
   @Column('varchar', { select: false, nullable: false })
   password: string;
 
   @IsString()
-  @Length(2, 8)
+  @Length(2, 8) // 2~8 길이
   @Column('varchar', { nullable: false })
   nickname: string;
 
-  @IsEnum(userType) // enum으로 바꿔야함
+  @IsEnum(userType)
   @Column({ type: 'enum', enum: userType, nullable: false })
   userType: userType;
 
