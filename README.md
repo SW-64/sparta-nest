@@ -22,7 +22,7 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+
 
 
 ## Installation
@@ -43,9 +43,39 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
+## 설명
+### 1
+### 2
 
 ## 트러블슈팅
+### 유효성검증은 DTO? Entity?
+- 유효성검증은 어떤 파일에서 하는게 더 효율적일까?
+- 예전에 튜터님께서 여러번 방어하면 좋다고 말씀하신게 기억난다.
+- 그렇다는 말은 두 파일 다 유효성 검증을 해야 보안에 좋은걸까?
 
-유효성검증은 DTO? Entity?
-https://softwareengineering.stackexchange.com/questions/387763/should-i-validate-dtos-or-entities
+### auth와 user를 나누는 것
+- auth와 user를 제대로 나눈건지 모르겠다.
+- user에는 기능이 그렇게 많지 않은데, 이런 경우 auth와 user가 합쳐도 되지 않을까라는 생각을 했다.
+
+### performance와 performanceTimes 나누는것
+- 엔티티는 나눴는데 모듈을 나누기에는 performanceTime에 대한 기능이 별로 없어서
+- performnace 파일에 performanceTime에 대한 기능도 같이 넣었다.
+- 앞서 말한 auth/user에 대한 얘기와 비슷하다. 이럴때는 어떻게 해야 할까
+
+### 에러 : Cannot delete or update a parent row: a foreign key constraint fails 
+- 부모 테이블의 행을 삭제하려고 할때 자식 테이블에서 해당 행을 참조하고 있어 삭제가 불가능하다는 것이다.
+- 해결방법 : 자식 테이블에 아래 코드 추가
+```ts
+{ onDelete: 'CASCADE' }
+```
+
+### req.user를 했을때에 User데이터가 나오지 않은 이유
+- @UseGuards 활용을 하지 않아서 에러
+
+### 유저 정보를 불러올때
+- req.user / userRepository 둘 중 어느 방법을 사용해야 더 효율적인걸까?
+
+## 🙋‍♀️ 소감
+1. return값에 대해 status, message 값을 제대로 부여하지 못해 아쉽다.
+  
+
