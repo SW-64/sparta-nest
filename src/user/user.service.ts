@@ -1,20 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-
-import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-  ) {}
+  constructor() {}
   // 내 정보 조회
   async getMyInfo(req) {
-    console.log(req.user);
-    const userInfo = await this.userRepository.findOne({});
-
-    return userInfo;
+    // req.user와 userRepository 둘 중에 어느걸 써야 더 효율적일까?
+    // const userInfo = await this.userRepository.findOne({});
+    return req.user;
   }
 }

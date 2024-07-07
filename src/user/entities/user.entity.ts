@@ -8,10 +8,9 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   OneToMany,
-  OneToOne,
 } from 'typeorm';
 import { Performance } from 'src/performance/entities/performance.entity';
-import { Reservation } from 'src/reservation/entity/reservation.entity';
+
 @Entity({
   name: 'users',
 })
@@ -54,6 +53,8 @@ export class User {
   @OneToMany(() => Performance, (performance) => performance.user)
   ownedPerformances: Performance[];
 
+  /*
   @OneToOne(() => Reservation, (reservation) => reservation.user)
   reservation: Reservation;
+  */
 }

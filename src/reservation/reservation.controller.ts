@@ -41,7 +41,7 @@ export class ReservationController {
   }
   // 예매 목록 확인
   @Get()
-  reservationGetAll() {
-    return this.reservationService.reservationGetAll();
+  reservationGetAll(@Req() req: any) {
+    return this.reservationService.reservationGetAll(req);
   }
 }

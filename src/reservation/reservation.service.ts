@@ -114,7 +114,7 @@ export class ReservationService {
       // map을 사용하는 이유 => 아래와 같이 추출된다. 나는 조금 더 명확한 값을 얻고자..
       //[ Seat { seatId: 293 } ]
       // 예매 테이블에 데이터 생성
-      await manager.create(Reservation, {
+      const data = await manager.create(Reservation, {
         userId: req.user.id,
         performanceId,
         performanceTimesId,
@@ -122,6 +122,7 @@ export class ReservationService {
         quantity,
         totalPrice: performancePrice * quantity,
       });
+      await manager.save(data); // 여긴왜 save를 해야 저장이되지? create만으로 안되나
 
       // 2. 포인트 차감
       // userId = 조건
@@ -266,14 +267,36 @@ export class ReservationService {
       // 예외성 처리 끝.
       // ( 예매정보, 포인트, 좌석 개수 )트랜잭션으로 묶기
       // 1. 예매정보 생성
-      await manager.create(Reservation, {
+      const remainSeat = [];
+      for (let i = 0; i < seatNumber.length; i++) {
+        const dataSeat = (
+          await manager.find(Seat, {
+            // 해당 공연, 공연시간, 그리고 예매 가능한 좌석을 조회
+            where: {
+              performanceId,
+              performanceTimesId,
+              isPossible: true,
+              seatNumber: seatNumber[i],
+            },
+            // 유저는 좌석을 고르지 않았으니, seatId를 추출함으로써 좌석을 부여
+            select: {
+              seatId: true,
+            },
+            take: quantity,
+          })
+        ).map((p) => p.seatId);
+        remainSeat.push(dataSeat);
+      }
+
+      const data = await manager.create(Reservation, {
         userId: req.user.id,
         performanceId,
         performanceTimesId,
-        seatNumber: seatNumber,
+        seatIds: remainSeat,
         quantity,
         totalPrice: performancePrice * quantity,
       });
+      await manager.save(data);
 
       // 2. 포인트 차감
       // userId = 조건
@@ -351,5 +374,13 @@ export class ReservationService {
     });
   }
   // 예매 목록 확인
-  async reservationGetAll() {}
+  async reservationGetAll(req) {
+    // 해당 유저가 예약한 내역만 나옴
+    const reservationGetAll = await this.reservationRepository.find({
+      where: { userId: req.user.id },
+    });
+    if (!reservationGetAll)
+      throw new NotFoundException('예매 목록이 없습니다.');
+    return reservationGetAll;
+  }
 }

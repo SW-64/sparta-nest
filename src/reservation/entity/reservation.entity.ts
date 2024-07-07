@@ -5,14 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  JoinColumn,
-  OneToOne,
 } from 'typeorm';
 import { paymentStatus } from '../paymentStatus.enum';
-import { IsEnum, IsInt } from 'class-validator';
-import { User } from 'src/user/entities/user.entity';
-import { Performance } from 'src/performance/entities/performance.entity';
-import { PerformanceTime } from 'src/performance/entities/performanceTime.entity';
+import { IsEnum, IsInt, IsArray } from 'class-validator';
+
 @Entity({
   name: 'reservations',
 })
@@ -32,8 +28,8 @@ export class Reservation {
   @Column({ type: 'int', nullable: false })
   performanceTimesId: number;
 
-  @IsInt({ each: true })
-  @Column('int', { array: true, nullable: false })
+  @IsArray()
+  @Column('simple-array', { nullable: false })
   seatIds: number[];
 
   @IsInt()
@@ -62,9 +58,11 @@ export class Reservation {
   @DeleteDateColumn()
   deletedAt?: Date;
 
+  /*
   @OneToOne(() => User, (user) => user.reservation)
   @JoinColumn({ name: 'userId' })
   user: User;
+
 
   @OneToOne(() => Performance, (performance) => performance.reservation)
   @JoinColumn({ name: 'performanceId' })
@@ -76,4 +74,5 @@ export class Reservation {
   )
   @JoinColumn({ name: 'performanceTimesId' })
   performanceTime: PerformanceTime;
+    */
 }

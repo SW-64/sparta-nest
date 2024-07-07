@@ -7,12 +7,11 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne,
   OneToMany,
 } from 'typeorm';
 import { IsString, IsInt, IsArray } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
-import { Reservation } from 'src/reservation/entity/reservation.entity';
+
 import { PerformanceTime } from './performanceTime.entity';
 import { Seat } from 'src/seat/entities/seat.entity';
 @Entity({
@@ -69,10 +68,10 @@ export class Performance {
   @ManyToOne(() => User, (user) => user.ownedPerformances)
   @JoinColumn({ name: 'ownerId' })
   user: User;
-
+  /*
   @OneToOne(() => Reservation, (reservation) => reservation.performance)
   reservation: Reservation;
-
+  */
   @OneToMany(
     () => PerformanceTime,
     (performanceTime) => performanceTime.performance,
