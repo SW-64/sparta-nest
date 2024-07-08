@@ -43,7 +43,97 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-## 설명
+## 1. 개발 환경
+- Back-end : nest.js
+- 버전 및 이슈 관리 : Github, Github Issues, Github Project
+- 협업 툴 : Notion
+
+
+## 2. 채택한 개발 기술
+### eslint, prettier
+- 정해진 규칙에 따라 자동적으로 코드 스타일을 정리해 코드의 일관성을 유지하고자 했습니다.
+- 코드 품질 관리는 eslint에, 코드 포맷팅은 prettier에 일임해 사용했습니다.
+
+
+## 3. 프로젝트 구조
+├── README.md
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── tsconfig.build.json
+├── tsconfig.json
+│
+├── test
+│    └── app.e2e-spec.ts
+│    └── jest-e2e.json
+└── src
+     ├── app.controller.ts
+     ├── app.module.ts
+     ├── app.service.ts
+     ├── main.ts
+     ├── auth
+     │     ├── auth.controller.ts
+     │     ├── auth.module.ts
+     │     ├── auth.service.ts
+     │     ├── auth.middleware.ts
+     │     └── jwt.strategy.ts
+     │          
+     ├── level
+     │     └── level.guard.ts
+     ├── user
+     │     ├── decoraters
+     │     │     ├── user.decorator.ts
+     │     │     └── userInfo.decorator.ts
+     │     ├── dto
+     │     │     ├── create-user.dto.ts
+     │     │     └── login-user.dto.ts
+     │     ├── entities
+     │     │     └── user.entity.ts
+     │     ├── user.controller.ts
+     │     ├── user.module.ts
+     │     ├── user.service.ts
+     │     └── userType.enum.ts
+     |
+     ├── performance
+     │     ├── dto
+     │     │     ├── create-performance.dto.ts
+     │     │     └── update-performance.dto.ts
+     │     ├── entities
+     │     │     ├── performance.entity.ts
+     │     │     └── performanceTime.entity.ts
+     │     ├── performance.controller.ts
+     │     ├── performance.module.ts
+     │     └── performance.service.ts
+     |
+     |
+     ├── seat
+     │     ├── dto
+     │     │     ├── create-seat.dto.ts
+     │     │     └── update-seat.dto.ts
+     │     ├── entities
+     │     │     └── seat.entity.ts
+     │     ├── seat.controller.ts
+     │     ├── seat.module.ts
+     │     └── seat.service.ts
+     |
+     |
+     └── reservation
+          ├── dto
+          │     └── reservation-online.dto.ts
+          ├── entities
+          │     └── reservation.entity.ts
+          ├── reservation.controller.ts
+          ├── reservation.module.ts
+          ├── paymentStatus.enum.ts
+          └── reservation.service.ts
+     
+## 4. 개발 기간
+### 2024-07-02 ~ 2024-07-07
+
+## 5. 설명
 ### 1 인증 및 사용자
 - 인증 : auth, 사용자 : user
 - 회원가입 / 로그인은 auth에서 구현되며, AccessToken은 로그인 기능으로부터 만들어진다.
@@ -60,7 +150,10 @@ $ npm run test:cov
 - 공연 좌석을 입력받으면 공연 시간마다 공연 좌석의 수만큼 데이터가 만들어진다.
 
 ### 3 예약
--
+- 좌석을 지정하지 않고 예매
+- 예외성 처리
+  공연 , 공연시간 id로 조회했는데 나오지 않을 시
+  
 
 ## 트러블슈팅
 ### 유효성검증은 DTO? Entity?
