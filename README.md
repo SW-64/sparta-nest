@@ -42,6 +42,11 @@ $ npm run test:e2e
 
 # test coverage
 $ npm run test:cov
+
+ERD : https://dbdiagram.io/d/6682cfc59939893daebce384
+
+API 명세서 https://www.notion.so/Node-js-API-80e6e4e7f08941a6991641f2cfb6650a
+
 ```
 ## 1. 개발 환경
 - Back-end : nest.js
