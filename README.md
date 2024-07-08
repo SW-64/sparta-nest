@@ -56,81 +56,75 @@ $ npm run test:cov
 
 
 ## 3. 프로젝트 구조
+## Project Structure
+
 .
 ├── README.md
 ├── .eslintrc.js
-├── .gitignore
+├── .gitignore 
 ├── .prettierrc
 ├── nest-cli.json
 ├── package-lock.json
 ├── package.json
 ├── tsconfig.build.json
 ├── tsconfig.json
-│
 ├── test
-│    └── app.e2e-spec.ts
-│    └── jest-e2e.json
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
 └── src
-├── app.controller.ts
-├── app.module.ts
-├── app.service.ts
-├── main.ts
-├── auth
-│     ├── auth.controller.ts
-│     ├── auth.module.ts
-│     ├── auth.service.ts
-│     ├── auth.middleware.ts
-│     └── jwt.strategy.ts
-│
-
-├── level
-│     └── level.guard.ts
-├── user
-│     ├── decoraters
-│     │     ├── user.decorator.ts
-│     │     └── userInfo.decorator.ts
-│     ├── dto
-│     │     ├── create-user.dto.ts
-│     │     └── login-user.dto.ts
-│     ├── entities
-│     │     └── user.entity.ts
-│     ├── user.controller.ts
-│     ├── user.module.ts
-│     ├── user.service.ts
-│     └── userType.enum.ts
-|
-├── performance
-│     ├── dto
-│     │     ├── create-performance.dto.ts
-│     │     └── update-performance.dto.ts
-│     ├── entities
-│     │     ├── performance.entity.ts
-│     │     └── performanceTime.entity.ts
-│     ├── performance.controller.ts
-│     ├── performance.module.ts
-│     └── performance.service.ts
-|
-|
-├── seat
-│     ├── dto
-│     │     ├── create-seat.dto.ts
-│     │     └── update-seat.dto.ts
-│     ├── entities
-│     │     └── seat.entity.ts
-│     ├── seat.controller.ts
-│     ├── seat.module.ts
-│     └── seat.service.ts
-|
-|
-└── reservation
-├── dto
-│     └── reservation-online.dto.ts
-├── entities
-│     └── reservation.entity.ts
-├── reservation.controller.ts
-├── reservation.module.ts
-├── paymentStatus.enum.ts
-└── reservation.service.ts
+    ├── app.controller.ts
+    ├── app.module.ts
+    ├── app.service.ts
+    ├── main.ts
+    ├── auth
+    │   ├── auth.controller.ts
+    │   ├── auth.module.ts
+    │   ├── auth.service.ts
+    │   ├── auth.middleware.ts
+    │   └── jwt.strategy.ts
+    ├── level
+    │   └── level.guard.ts
+    ├── user
+    │   ├── decoraters
+    │   │   ├── user.decorator.ts
+    │   │   └── userInfo.decorator.ts
+    │   ├── dto
+    │   │   ├── create-user.dto.ts
+    │   │   └── login-user.dto.ts
+    │   ├── entities
+    │   │   └── user.entity.ts
+    │   ├── user.controller.ts
+    │   ├── user.module.ts
+    │   ├── user.service.ts
+    │   └── userType.enum.ts
+    ├── performance
+    │   ├── dto
+    │   │   ├── create-performance.dto.ts
+    │   │   └── update-performance.dto.ts
+    │   ├── entities
+    │   │   ├── performance.entity.ts
+    │   │   └── performanceTime.entity.ts
+    │   ├── performance.controller.ts
+    │   ├── performance.module.ts
+    │   └── performance.service.ts
+    ├── seat
+    │   ├── dto
+    │   │   ├── create-seat.dto.ts
+    │   │   └── update-seat.dto.ts
+    │   ├── entities
+    │   │   └── seat.entity.ts
+    │   ├── seat.controller.ts
+    │   ├── seat.module.ts
+    │   └── seat.service.ts
+    └── reservation
+        ├── dto
+        │   └── reservation-online.dto.ts
+        ├── entities
+        │   └── reservation.entity.ts
+        ├── reservation.controller.ts
+        ├── reservation.module.ts
+        ├── paymentStatus.enum.ts
+        └── reservation.service.ts
 
 
      
