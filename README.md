@@ -57,6 +57,7 @@ $ npm run test:cov
 
 ## 3. 프로젝트 구조
 ## Project Structure
+```
 
 .
 ├── README.md
@@ -127,7 +128,7 @@ $ npm run test:cov
         └── reservation.service.ts
 
 
-     
+```     
 ## 4. 개발 기간
 ### 2024-07-02 ~ 2024-07-07
 
